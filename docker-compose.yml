@@ -1,0 +1,23 @@
+services:
+  # ── Development (hot reload) ───────────────────────────────────────────
+  dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules        # keep container's node_modules isolated
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    profiles: [dev]
+
+  # ── Production preview (nginx, built) ─────────────────────────────────
+  prod:
+    build:
+      context: .
+      target: prod
+    ports:
+      - "8080:80"
+    profiles: [prod]
